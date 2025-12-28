@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>铱元素展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+        
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .image-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-container {
+            width: 100%;
+            overflow: hidden;
+            background: #f8f9fa;
+            position: relative;
+        }
+        
+        .responsive-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover .responsive-image {
+            transform: scale(1.05);
+        }
+        
+        .image-info {
+            padding: 25px;
+        }
+        
+        .image-title {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .image-meta {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .image-description {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .source-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .source-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 新增样式：图片容器之间的间距 */
+        .images-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        /* 授权协议区域样式 */
+        .licenses-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .license-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        
+        .license-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .license-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+        }
+        
+        .license-icon {
+            width: 60px;
+            height: 24px;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        
+        .license-by {
+            width: 24px;
+            height: 24px;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 10px;
+            border-radius: 50%;
+        }
+        
+        .license-sa {
+            width: 24px;
+            height: 24px;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 8px;
+            border-radius: 50%;
+        }
+        
+        /* 新增样式：PD图标 */
+        .license-pd {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .license-pd-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .license-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .license-content {
+            line-height: 1.6;
+        }
+        
+        .license-declaration {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .license-desc dl {
+            margin: 0;
+        }
+        
+        .license-desc dt {
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 15px 0 8px 0;
+            font-size: 1.05rem;
+        }
+        
+        .license-desc dd {
+            margin-left: 0;
+            margin-bottom: 15px;
+        }
+        
+        .license-desc ul {
+            margin: 8px 0;
+            padding-left: 25px;
+        }
+        
+        .license-desc li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .license-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .license-link:hover {
+            text-decoration: underline;
+        }
+        
+        .license-note {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+            
+            .image-card {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .image-info {
+                padding: 30px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .main-title {
+                font-size: 3rem;
+            }
+            
+            .licenses-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            body {
+                padding: 15px;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .image-info {
+                padding: 20px;
+            }
+            
+            .image-title {
+                font-size: 1.5rem;
+            }
+            
+            .license-container {
+                padding: 20px;
+            }
+            
+            .license-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .license-icons {
+                margin-right: 0;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .image-card, .license-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .license-container:first-of-type {
+            animation-delay: 0.1s;
+        }
+        
+        .license-container:nth-of-type(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .license-container:last-of-type {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">铱元素展示</h1>
+            <p class="subtitle">Iridium Element Display - 原子序数77的贵金属</p>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="images-container">
+                <!-- 第一个图片卡片 - 原始铱图片 -->
+                <div class="image-card">
+                    <div class="image-container">
+                        <img src="Iridium.png" 
+                             alt="纯铱金属碎片" class="responsive-image">
+                    </div>
+                    <div class="image-info">
+                        <h2 class="image-title">铱 (Iridium) - 样本1</h2>
+                        
+                        <div class="image-meta">
+                            <strong>原子序数:</strong> 77 | <strong>原子量:</strong> 192.217 u<br>
+                            <strong>样品重量:</strong> 1克 | <strong>碎片尺寸:</strong> 0.1-0.3cm
+                            <p><a href="https://zh.wikipedia.org/wiki/%E9%93%B1" class="license-link">维基百科原文</a></p>
+                        </div>
+                        
+                        <p class="image-description">
+                            <strong>中文描述:</strong> 纯铱块1克。原始尺寸：每个0.1-0.3cm<br>
+                            <strong>拍摄者:</strong> 未知<br>
+                            <strong>来源:</strong> 维基共享资源 - 
+                            <a href="https://images-of-elements.com/iridium.php" class="source-link" target="_blank">images-of-elements.com</a>
+                        </p>
+                        <p class="image-description">
+                            <strong>English:</strong> Pieces of pure iridium, 1 gram. Original size: 0.1-0.3 cm each<br>
+                            <strong>Author:</strong> Unknown<br>
+                            <strong>Source:</strong> Wikimedia Commons - 
+                            <a href="https://images-of-elements.com/iridium.php" class="source-link" target="_blank">images-of-elements.com</a>
+                        </p>
+                        <p class="image-description">
+                            铱（拼音：yī，注音：ㄧ，粤拼：ji1；英语：Iridium），是一种化学元素，其化学符号为Ir，原子序数为77，原子量为192.217 u。铱是一种十分刚脆，银白色的铂系过渡金属。铱是目前发现密度第二大的化学元素（仅次于锇），以X射线晶体结构分析实验测出的密度为22.56 g/cm3，在室内温度及标准大气压的环境时，它以同样的方式被计算出的密度较锇高出了0.04g/cm3，铱是抗腐蚀性最高的金属，甚至在摄氏2000度的高温都还保留着抗腐蚀的特性。虽然只有某些融化的盐类及卤素对铱有腐蚀性，然而极细的铱粉末仍拥有较高的活性而且也是可燃的。
+                        </p>
+                        
+                    </div>
+                </div>
+                
+                <!-- 第二个图片卡片 - 新增的Iridium2.png -->
+                <div class="image-card">
+                    <div class="image-container">
+                        <img src="Iridium2.png" 
+                             alt="铱金属样本" class="responsive-image">
+                    </div>
+                    <div class="image-info">
+                        <h2 class="image-title">铱 (Iridium) - 样本2</h2>
+                        
+                        <div class="image-meta">
+                            <strong>原子序数:</strong> 77 | <strong>原子量:</strong> 192.217 u<br>
+                            <strong>作者:</strong> Greenhorn1
+                            <p><a href="https://zh.wikipedia.org/wiki/%E9%93%B1" class="license-link">维基百科原文</a></p>
+                        </div>
+                        
+                        <p class="image-description">
+                            <strong>中文描述:</strong> 1金衡盎司（约31.1克）电弧熔炼的铱金属<br>
+                            <strong>拍摄者/作者:</strong> Greenhorn1<br>
+                            <strong>授权:</strong> 公有领域
+                        </p>
+                        <p class="image-description">
+                            <strong>English:</strong> 1 troy ounce arc-melted 99.99% iridium button<br>
+                            <strong>Author:</strong> Greenhorn1<br>
+                            <strong>License:</strong> Public Domain
+                        </p>
+                        <p class="image-description">
+                            铱属于铂系金属，和铂一样呈白色，但夹杂少许黄色。铱坚硬易碎，熔点也非常高，所以很难铸造和塑形。制造工序因此一般使用粉末冶金。铱是唯一一种在1600 °C以上的空气中仍保持优良力学性质的金属。其沸点极高，在所有元素中排第10位。铱在0.14 K以下会呈现超导体性质。
+                        </p>
+                        <p class="image-description">
+铱的弹性模量仅次于锇，为所有金属中第二高。其剪切模量很高，泊松比很低，因此具有很高的刚度，这使得铱非常难以加工生产。尽管生产不易且价格昂贵，但在现代科技所需的极端条件下，机械强度很高的铱元素仍然拥有多项应用。
+                        </p >
+                        <p class="image-description">
+
+铱的密度在所有元素中排第二位，仅比锇稍低（低约0.12%）。由于两元素密度值十分相近且测量不易，所以其密度相对高低一度并没有定论。不过，X射线晶体学技术的发展使得测量密度时的准确度大大提高，最终以这种方法所得出铱和锇的密度值分别为22.56 g/cm3和22.59 g/cm3。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="licenses-section">
+                <!-- 图片声明 -->
+                <div class="license-container">
+                    <div class="license-header">
+                        <h3 class="license-title">关于本站图片</h3>
+                    </div>
+                        <div class="license-content">
+                            <div class="license-declaration">
+                                为提升呈现效果，本站所有图片均经过后期处理。原始素材来源于维基公共资源（JPG格式），我们已将其统一转换为PNG格式并进行了优化。
+                            </div>
+                        </div>
+                    
+                </div>
+
+                <!-- 图片一授权协议 - CC BY 3.0 -->
+                <div class="license-container">
+                    <div class="license-header">
+                        <div class="license-icons">
+                            <div class="license-icon">CC</div>
+                            <div class="license-by">BY</div>
+                        </div>
+                        <h3 class="license-title">图片一授权协议 (CC BY 3.0)</h3>
+                    </div>
+                    
+                    <div class="license-content">
+                        <div class="license-declaration">
+                            本图片采用<a href="https://creativecommons.org/licenses/by/3.0/deed.zh-hans" class="license-link" target="_blank">知识共享署名 3.0 未本地化版本</a>许可协议授权。
+                        </div>
+                        
+                        <div class="license-desc">
+                            <dl>
+                                <dt>您可以自由地：</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>共享</strong> – 复制、发行并传播本作品</li>
+                                        <li><strong>修改</strong> – 改编作品</li>
+                                    </ul>
+                                </dd>
+                                <dt>惟须遵守下列条件：</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>署名</strong> – 您必须对作品进行署名，提供授权条款的链接，并说明是否对原始内容进行了更改。
+                                            您可以用任何合理的方式来署名，但不得以任何方式表明许可人认可您或您的使用。</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        
+                        <div class="license-note">
+                            <strong>注意：</strong>本图片同时适用<a href="https://creativecommons.org/licenses/by/1.0/deed.zh-hans" class="license-link" target="_blank">知识共享署名 1.0 通用</a>许可协议。
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片二授权协议 - 公有领域 -->
+                <div class="license-container">
+                    <div class="license-header">
+                        <div class="license-icons">
+                            <div class="license-pd">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/PD-icon.svg/256px-PD-icon.svg.png" 
+                                     alt="公有领域" class="license-pd-icon">
+                            </div>
+                        </div>
+                        <h3 class="license-title">图片二授权协议 (公有领域)</h3>
+                    </div>
+                    
+                    <div class="license-content">
+                        <div class="license-declaration">
+                            作者Greenhorn1将本作品释出至公有领域。
+                        </div>
+                        
+                        <div class="license-desc">
+                            <dl>
+                                <dt>声明内容：</dt>
+                                <dd>
+                                    <ul>
+                                        <li>我，本作品著作权人，释出本作品至公有领域。这适用于全世界。</li>
+                                        <li>在一些国家这可能不合法；如果是这样的话，那么：</li>
+                                        <li>我无条件地授予任何人以任何目的使用本作品的权利，除非这些条件是法律规定所必需的。</li>
+                                    </ul>
+                                </dd>
+                                <dt>您可以：</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>自由使用</strong> – 以任何目的、任何方式使用本作品</li>
+                                        <li><strong>无需署名</strong> – 不要求必须署名（但建议署名）</li>
+                                        <li><strong>可修改</strong> – 可改编、修改本作品</li>
+                                        <li><strong>可商用</strong> – 可用于商业用途</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        
+                        <div class="license-note">
+                            <strong>注意：</strong>公有领域作品没有版权限制，但建议使用时注明作者Greenhorn1以示尊重。
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 维基百科文字内容授权协议 -->
+                <div class="license-container">
+                    <div class="license-header">
+                        <div class="license-icons">
+                            <div class="license-icon">CC</div>
+                            <div class="license-by">BY</div>
+                            <div class="license-sa">SA</div>
+                        </div>
+                        <h3 class="license-title">维基百科文字内容授权协议</h3>
+                    </div>
+                    
+                    <div class="license-content">
+                        <div class="license-declaration">
+                            本页面中关于铱元素的描述文字基于<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans" class="license-link" target="_blank">知识共享 署名-相同方式共享 4.0 协议</a>授权。
+                        </div>
+                        
+                        <div class="license-desc">
+                            <dl>
+                                <dt>您可以自由地：</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>共享</strong> – 以任何媒介或格式复制、发行本作品</li>
+                                        <li><strong>修改</strong> – 改编、转换本作品、以本作品为基础进行创作</li>
+                                    </ul>
+                                </dd>
+                                <dt>惟须遵守下列条件：</dt>
+                                <dd>
+                                    <ul>
+                                        <li><strong>署名</strong> – 您必须署上适当的姓名，提供指向本许可协议的链接，并说明是否修改了本作品。您可以用任何合理的方式来署名，但不得以任何方式暗示许可人认可您或您的使用。</li>
+                                        <li><strong>相同方式共享</strong> – 若您修改、转换本作品，或以本作品为基础进行创作，您必须依本许可协议或更类似的许可协议来发行您的贡献作品。</li>
+                                    </ul>
+                                </dd>
+                            </dl>
+                        </div>
+                        
+                        <div class="license-note">
+                            <strong>注意：</strong>这是维基百科使用的标准内容授权协议。更多详细信息请参阅
+                            <a href="https://zh.wikipedia.org/zh-cn/Wikipedia:CC_BY-SA_4.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" class="license-link" target="_blank">维基百科CC BY-SA 4.0协议文本</a>。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
